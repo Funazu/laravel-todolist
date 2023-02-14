@@ -36,6 +36,16 @@ class UserController extends Controller
                 "error" => "User or password is required"
             ]);
         }
+
+        if($this->userService->login($user, $password)) {
+            $request->session()->put("user", $user);
+            return redirect('/');
+        }
+
+        return response()->view('user.login', [
+            "title" => "Login",
+            "error" => "User or Password Wrong"
+        ]);
     }
 
     public function doLogout() {
